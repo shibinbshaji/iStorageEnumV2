@@ -111,6 +111,8 @@ do
   	grep -EHrin $p | sed G > ../GREP-results/$p.txt
 
 done < ../../grepwords.txt
+cd ../GREP-results
+find . -empty -type f -delete
 
 echo -e "\033[33m Results will be available in $binaryname/GREP-results\033[0m"
 
