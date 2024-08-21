@@ -95,19 +95,22 @@ export SSHPASS='alpine'
 sshpass -e sftp -oBatchMode=no -b $filename $iphoneuser@$iphoneip
 echo -e "\033[33m [+] Files saved to directory!\033[0m"
 
+mkdir -p strings
+for i in ./*; do strings $i > ./strings/$i.txt; done
+echo "Converting to readable strings and storing it in $binaryname/strings folder"
+
+mkdir -p GREP-results
+cd strings
+
 echo -e "\033[33m [+] Searching for keywords\033[0m"
 
 while IFS="" read -r p || [ -n "$p" ]
 do
 	echo "Searching for keyword: "
 	echo -e "\033[33m $p\033[0m"
-  	grep -EHrin $p
-  	echo "__________________________________________________________________________________________________________________"
-done < ../grepwords.txt
+  	grep -EHrin $p | sed G > ../GREP-results/$p.txt
 
+done < ../../grepwords.txt
 
-
-
-
-
+echo -e "\033[33m Results will be available in $binaryname/GREP-results\033[0m"
 
